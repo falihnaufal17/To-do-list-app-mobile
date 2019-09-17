@@ -66,7 +66,7 @@ export default todolist = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isFulFilled: true,
-                todoLists: state.todoLists
+                todoLists: state.todoLists[0]
             }
         default:
             return state

@@ -53,7 +53,7 @@ export class TodoListByName extends Component {
             <>
                 <List>
                     <ListItem>
-                        <Text>{moment().format('dddd, MMMM YYYY').toString()}</Text>
+                        <Text>{moment().format('dddd, DD MMMM YYYY').toString()}</Text>
                     </ListItem>
                 </List>
                 {

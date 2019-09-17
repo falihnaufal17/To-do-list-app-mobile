@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native'
-import { ListItem } from 'native-base'
+import { ListItem, View } from 'native-base'
 import { connect } from 'react-redux'
 import { withNavigation } from 'react-navigation'
 
@@ -21,22 +21,20 @@ export class NameList extends Component {
         await this.getAllName()
     }
 
-    componentWillMount = () => {
-        this.getAllName()
+    componentWillMount = async () => {
+        await this.getAllName()
     }
 
-    componentWillUnmount() {
-        this.getAllName()
+    getAllName = async () => {
+        await this.props.dispatch(getAllName())
+        await this.setState({
+            isLoading: false,
+            todoList: this.props.todoLists
+        })
     }
 
-    getAllName = () => {
-        this.props.dispatch(getAllName())
-            .then(() => {
-                this.setState({
-                    isLoading: false,
-                    todoList: this.props.todoLists
-                })
-            })
+    componentWillUnmount = async () => {
+        await this.getAllName()
     }
 
     renderItem = ({ item }) => {
@@ -57,14 +55,20 @@ export class NameList extends Component {
                     this.state.isLoading ?
                         <ActivityIndicator size='large' color='blue' />
                         :
-                        <FlatList
-                            data={this.state.todoList}
-                            renderItem={this.renderItem}
-                            keyExtractor={item => item.nama_peserta}
-                            scrollEnabled={true}
-                            showsVerticalScrollIndicator={false}
-                            style={{ marginBottom: 90 }}
-                        />
+                        this.state.todoList.length > 0
+                            ?
+                            <FlatList
+                                data={this.state.todoList}
+                                renderItem={this.renderItem}
+                                keyExtractor={item => item.nama_peserta}
+                                scrollEnabled={true}
+                                showsVerticalScrollIndicator={false}
+                                style={{ marginBottom: 90 }}
+                            />
+                            :
+                            <View style={styles.container}>
+                                <Text style={styles.txtAlert}>Belum ada daftar peserta</Text>
+                            </View>
                 }
             </>
         )
@@ -80,6 +84,15 @@ const mapStateToProps = state => {
 export default withNavigation(connect(mapStateToProps)(NameList))
 
 const styles = StyleSheet.create({
+    txtAlert: {
+        color: 'teal'
+    },
+    container: {
+        justifyContent: 'center',
+        flex: 1,
+        alignItems: 'center',
+        margin: 0
+    },
     txtCapital: {
         textTransform: 'capitalize'
     }
