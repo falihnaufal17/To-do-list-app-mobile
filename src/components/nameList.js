@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, StyleSheet } from 'react-native'
-import { List, ListItem, Container, Content, Button } from 'native-base'
+import { Text, FlatList, StyleSheet } from 'react-native'
+import { ListItem } from 'native-base'
 import { connect } from 'react-redux'
+import { withNavigation } from 'react-navigation'
 
 import { getAllName } from '../publics/actions/todolist'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -32,7 +33,7 @@ export class NameList extends Component {
 
     renderItem = ({ item }) => {
         return (
-            <TouchableOpacity key={item.nama_peserta} activeOpacity={0.7}>
+            <TouchableOpacity key={item.nama_peserta} activeOpacity={0.7} onPress={() => this.props.navigation.navigate('Detail', { nama_peserta: item.nama_peserta })}>
                 <ListItem>
                     <Text style={styles.txtCapital}>{item.nama_peserta}</Text>
                 </ListItem>
@@ -58,7 +59,7 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(NameList)
+export default withNavigation(connect(mapStateToProps)(NameList))
 
 const styles = StyleSheet.create({
     txtCapital: {

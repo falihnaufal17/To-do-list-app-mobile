@@ -7,3 +7,10 @@ export const getAllName = () => {
         payload: axios.get(`${url}/todo`)
     }
 }
+
+export const getTodoByName = (nama_peserta) => {
+    return {
+        type: 'GET_BYNAME',
+        payload: axios.get(`${url}/todo/${nama_peserta}`)
+    }
+}
