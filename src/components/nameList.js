@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, FlatList, StyleSheet } from 'react-native'
+import { Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native'
 import { ListItem } from 'native-base'
 import { connect } from 'react-redux'
 import { withNavigation } from 'react-navigation'
@@ -44,11 +44,21 @@ export class NameList extends Component {
     render() {
         console.log('data ', this.state.todoList)
         return (
-            <FlatList
-                data={this.state.todoList}
-                renderItem={this.renderItem}
-                keyExtractor={item => item.nama_peserta}
-            />
+            <>
+                {
+                    this.state.isLoading ?
+                        <ActivityIndicator size='large' color='blue' />
+                        :
+                        <FlatList
+                            data={this.state.todoList}
+                            renderItem={this.renderItem}
+                            keyExtractor={item => item.nama_peserta}
+                            scrollEnabled={true}
+                            showsVerticalScrollIndicator={false}
+                            style={{ marginBottom: 90 }}
+                        />
+                }
+            </>
         )
     }
 }

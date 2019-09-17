@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
 import { FlatGrid } from 'react-native-super-grid';
 import { Card, CardItem, List, ListItem } from 'native-base'
@@ -13,6 +13,7 @@ export class TodoListByName extends Component {
 
         this.state = {
             data: [],
+            isLoading: true,
             nama_peserta: this.props.nama_peserta
         }
     }
@@ -24,7 +25,10 @@ export class TodoListByName extends Component {
     getTodoByName = () => {
         this.props.dispatch(getTodoByName(this.state.nama_peserta))
             .then(() => {
-                this.setState({ data: this.props.todoLists })
+                this.setState({
+                    isLoading: false,
+                    data: this.props.todoLists
+                })
             })
     }
 
@@ -52,14 +56,20 @@ export class TodoListByName extends Component {
                         <Text>{moment().format('dddd, MMMM YYYY').toString()}</Text>
                     </ListItem>
                 </List>
-                <FlatGrid
-                    itemDimension={130}
-                    showsVerticalScrollIndicator={false}
-                    items={this.state.data}
-                    style={styles.gridView}
-                    keyExtractor={item => item.id}
-                    renderItem={this.renderItem}
-                />
+                {
+                    this.state.isLoading ?
+                        <ActivityIndicator size='large' color='blue' />
+                        :
+                        <FlatGrid
+                            itemDimension={130}
+                            showsVerticalScrollIndicator={false}
+                            items={this.state.data}
+                            style={styles.gridView}
+                            keyExtractor={item => item.id}
+                            renderItem={this.renderItem}
+                        />
+                }
+
             </>
         )
     }

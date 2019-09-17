@@ -47,6 +47,27 @@ export default todolist = (state = initialState, action) => {
                 isFulFilled: true,
                 todoLists: action.payload.data.result
             }
+        case 'POST_TODO_PENDING':
+            return {
+                ...state,
+                isLoading: true,
+                isRejected: false,
+                isFulFilled: false
+            }
+        case 'POST_TODO_REJECTED':
+            return {
+                ...state,
+                isLoading: false,
+                isRejected: true
+            }
+        case 'POST_TODO_FULFILLED':
+            state.todoLists.push(action.payload.data.result)
+            return {
+                ...state,
+                isLoading: false,
+                isFulFilled: true,
+                todoLists: state.todoLists
+            }
         default:
             return state
     }

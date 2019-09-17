@@ -14,3 +14,10 @@ export const getTodoByName = (nama_peserta) => {
         payload: axios.get(`${url}/todo/${nama_peserta}`)
     }
 }
+
+export const addTodo = (data) => {
+    return {
+        type: 'POST_TODO',
+        payload: axios.post(`${url}/todo`, data)
+    }
+}
