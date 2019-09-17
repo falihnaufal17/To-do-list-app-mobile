@@ -21,8 +21,16 @@ export class NameList extends Component {
         await this.getAllName()
     }
 
-    getAllName = async () => {
-        await this.props.dispatch(getAllName())
+    componentWillMount = () => {
+        this.getAllName()
+    }
+
+    componentWillUnmount() {
+        this.getAllName()
+    }
+
+    getAllName = () => {
+        this.props.dispatch(getAllName())
             .then(() => {
                 this.setState({
                     isLoading: false,
